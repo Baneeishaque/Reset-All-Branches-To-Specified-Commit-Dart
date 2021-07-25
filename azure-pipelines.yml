@@ -22,7 +22,9 @@ steps:
   condition: eq( variables['Agent.OS'], 'Linux' )
   displayName: 'Dart Installation On Ubuntu'
 
-- script: choco install dart-sdk
+- script: |
+    choco install dart-sdk
+    refreshenv
   condition: eq( variables['Agent.OS'], 'Windows_NT' )
   displayName: 'Dart Installation On Windows'
 
@@ -40,6 +42,7 @@ steps:
   condition: eq( variables['Agent.OS'], 'Windows_NT' )
 
 - task: PublishBuildArtifacts@1
+  condition: eq( variables['Agent.OS'], 'Windows_NT' )
   inputs:
     pathToPublish: 'bin/reset_all_branches_to_specified_commit.exe'
     artifactName: reset_all_branches_to_specified_commit.exe
@@ -49,6 +52,7 @@ steps:
   condition: ne( variables['Agent.OS'], 'Windows_NT' )
 
 - task: PublishBuildArtifacts@1
+  condition: ne( variables['Agent.OS'], 'Windows_NT' )
   inputs:
     pathToPublish: 'bin/reset_all_branches_to_specified_commit'
     artifactName: reset_all_branches_to_specified_commit
