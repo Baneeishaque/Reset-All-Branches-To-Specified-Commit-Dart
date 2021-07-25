@@ -39,6 +39,16 @@ steps:
   displayName: 'Compile On Windows'
   condition: eq( variables['Agent.OS'], 'Windows_NT' )
 
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: 'bin/reset_all_branches_to_specified_commit.exe'
+    artifactName: reset_all_branches_to_specified_commit.exe
+
 - script: dart compile exe bin/reset_all_branches_to_specified_commit.dart -o bin/reset_all_branches_to_specified_commit
   displayName: 'Compile On Unix'
   condition: ne( variables['Agent.OS'], 'Windows_NT' )
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: 'bin/reset_all_branches_to_specified_commit'
+    artifactName: reset_all_branches_to_specified_commit
