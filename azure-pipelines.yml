@@ -1,0 +1,44 @@
+trigger:
+- master
+
+strategy:
+  matrix:
+    linux:
+      imageName: 'ubuntu-latest'
+    mac:
+      imageName: 'macOS-latest'
+    windows:
+      imageName: 'windows-latest'
+
+pool:
+  vmImage: $(imageName)
+
+steps:
+- bash: |
+    sudo sh -c 'curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -'
+    sudo sh -c 'curl https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list'
+    sudo apt-get update
+    sudo apt-get install dart
+  condition: eq( variables['Agent.OS'], 'Linux' )
+  displayName: 'Dart Installation On Ubuntu'
+
+- script: choco install dart-sdk
+  condition: eq( variables['Agent.OS'], 'Windows_NT' )
+  displayName: 'Dart Installation On Windows'
+
+- bash: |
+    brew tap dart-lang/dart
+    brew install dart
+  condition: eq( variables['Agent.OS'], 'Darwin' )
+  displayName: 'Dart Installation On macOS'
+
+- script: dart pub get
+  displayName: 'Resolve Dependencies'
+
+- script: dart compile exe bin/reset_all_branches_to_specified_commit.dart
+  displayName: 'Compile On Windows'
+  condition: eq( variables['Agent.OS'], 'Windows_NT' )
+
+- script: dart compile exe bin/reset_all_branches_to_specified_commit.dart -o bin/reset_all_branches_to_specified_commit
+  displayName: 'Compile On Unix'
+  condition: ne( variables['Agent.OS'], 'Windows_NT' )
