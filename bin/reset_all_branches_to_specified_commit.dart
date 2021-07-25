@@ -1,8 +1,15 @@
-import 'package:reset_all_branches_to_specified_commit/reset_all_branches_to_specified_commit.dart' as reset_all_branches_to_specified_commit;
+import 'package:reset_all_branches_to_specified_commit/reset_all_branches_to_specified_commit.dart'
+    as reset_all_branches_to_specified_commit;
 
 void main(List<String> arguments) {
-  // print('Hello world: ${reset_all_branches_to_specified_commit.calculate()}!');
-  // reset_all_branches_to_specified_commit.printGitVersion();
-  reset_all_branches_to_specified_commit.printGitBranches('C:/Banee_Data/To_Sync/Lab_Banee/Azure_DevOps/VS2019-Azure-DevOps');
-  // reset_all_branches_to_specified_commit.printGitBranches('');
+  var repoDirectory = '/workspace/VS2019-Azure-DevOps';
+  var desiredBranch = 'ManagedDesktop';
+  reset_all_branches_to_specified_commit
+      .createMissingBranchesInLocal(repoDirectory);
+  print(reset_all_branches_to_specified_commit
+      .getGitBranchesInRemote(repoDirectory));
+  print(reset_all_branches_to_specified_commit
+      .getGitBranchesInLocal(repoDirectory));
+  reset_all_branches_to_specified_commit
+      .gitMergeSpecifiedBranchWithOtherBranches(repoDirectory, desiredBranch);
 }
