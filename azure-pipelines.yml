@@ -24,9 +24,13 @@ steps:
 
 - script: |
     choco install dart-sdk
-    refreshenv
   condition: eq( variables['Agent.OS'], 'Windows_NT' )
   displayName: 'Dart Installation On Windows'
+
+- script: |
+    echo %PATH%
+  condition: eq( variables['Agent.OS'], 'Windows_NT' )
+  displayName: 'Check PATH On Windows'
 
 - bash: |
     brew tap dart-lang/dart
