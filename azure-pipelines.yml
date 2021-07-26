@@ -27,20 +27,20 @@ steps:
   condition: eq( variables['Agent.OS'], 'Windows_NT' )
   displayName: 'Dart Installation On Windows'
 
-- script: |
-    echo %PATH%
-  condition: eq( variables['Agent.OS'], 'Windows_NT' )
-  displayName: 'Check PATH On Windows'
+# - script: |
+#     echo %PATH%
+#   condition: eq( variables['Agent.OS'], 'Windows_NT' )
+#   displayName: 'Check PATH On Windows'
 
 - pwsh: |
     Write-Host "##vso[task.setvariable variable=path;]C:\tools\dart-sdk\bin;C:\Users\VssAdministrator\AppData\Roaming\Pub\Cache\bin;$env:PATH"
   condition: eq( variables['Agent.OS'], 'Windows_NT' )
   displayName: 'Add Dart SDK to PATH On Windows'
 
-- script: |
-    echo %PATH%
-  condition: eq( variables['Agent.OS'], 'Windows_NT' )
-  displayName: 'Check PATH On Windows'
+# - script: |
+#     echo %PATH%
+#   condition: eq( variables['Agent.OS'], 'Windows_NT' )
+#   displayName: 'Check PATH On Windows'
 
 - bash: |
     brew tap dart-lang/dart
